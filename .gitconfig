@@ -5,3 +5,5 @@
 [user]
 	email = nimbus272@gmail.com
 	name = Dennis
+[credential]
+	helper = store
