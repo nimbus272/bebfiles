@@ -10,6 +10,8 @@ zplug "MichaelAquilina/zsh-you-should-use"
 # Then, source plugins and check if there are plugins that have not been installed
 zplug check || zplug install
 
+zplug load
+
 #Plugins
 plugins=(git z docker node npm archlinux dnf cp firewalld docker-compose nvm pip python starship sudo yarn yum)
 source $ZSH/oh-my-zsh.sh
