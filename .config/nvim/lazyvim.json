@@ -1,12 +1,15 @@
 {
   "extras": [
+    "lazyvim.plugins.extras.dap.core",
+    "lazyvim.plugins.extras.coding.copilot",
     "lazyvim.plugins.extras.formatting.prettier",
     "lazyvim.plugins.extras.lang.go",
+    "lazyvim.plugins.extras.lang.java",
     "lazyvim.plugins.extras.lsp.none-ls",
     "lazyvim.plugins.extras.ui.alpha"
   ],
   "news": {
-    "NEWS.md": "2123"
+    "NEWS.md": "4964"
   },
-  "version": 2
+  "version": 5
 }
