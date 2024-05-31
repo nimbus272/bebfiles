@@ -13,7 +13,7 @@ zplug check || zplug install
 zplug load
 
 #Plugins
-plugins=(git z docker node npm archlinux dnf cp firewalld docker-compose nvm pip python starship sudo yarn yum)
+plugins=(git z docker node npm archlinux dnf cp firewalld docker-compose nvm pip python starship sudo yarn yum httpie)
 source $ZSH/oh-my-zsh.sh
 
 #Aliases
