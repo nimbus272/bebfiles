@@ -47,3 +47,4 @@ require("lazy").setup({
     border = "rounded",
   },
 })
+vim.g.ruby_host_prog = "/home/bebbis/.local/share/gem/ruby/3.0.0/bin/neovim-ruby-host"
