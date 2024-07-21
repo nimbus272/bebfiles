@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+if [ -z "$1" ]; then
+  echo "Error: a file name must be specified."
+  exit 1
+fi
+
+file_name=$(echo "$1" | tr ' ' '-').md
+cd "/home/bebbis/Documents/BebNotes/BebNotes" || exit
+touch "inbox/${file_name}"
+nvim "inbox/${file_name}"

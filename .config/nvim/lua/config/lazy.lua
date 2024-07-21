@@ -5,6 +5,7 @@ if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+vim.g.ruby_host_prog = "/home/bebbis/.local/share/gem/ruby/3.0.0/bin/neovim-ruby-host"
 
 require("lazy").setup({
   spec = {
@@ -47,4 +48,3 @@ require("lazy").setup({
     border = "rounded",
   },
 })
-vim.g.ruby_host_prog = "/home/bebbis/.local/share/gem/ruby/3.0.0/bin/neovim-ruby-host"

@@ -21,6 +21,8 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ls="eza -1la --icons=always --hyperlink --git-repos --no-time --group-directories-first --no-permissions"
 alias lappy-ssh="ssh 10.0.0.45 -l bebbis"
+alias todo="nvim /home/bebbis/Documents/BebNotes/BebNotes/Todo-List.md"
+alias obsidian="nvim /home/bebbis/Documents/BebNotes/BebNotes/"
 
 
 #Star Ship
@@ -44,5 +46,6 @@ source /usr/share/nvm/init-nvm.sh
 
 export GEM_HOME="/home/bebbis/.local/share/gem/ruby/3.0.0"
 export PATH="$PATH:$GEM_HOME/bin"
+export PATH="$PATH:/home/bebbis/scripts"
 export MANGOHUD=1
 export LS_COLORS="$(vivid generate alabaster_dark)"
