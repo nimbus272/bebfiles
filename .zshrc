@@ -49,3 +49,6 @@ export PATH="$PATH:$GEM_HOME/bin"
 export PATH="$PATH:/home/bebbis/scripts"
 export MANGOHUD=1
 export LS_COLORS="$(vivid generate alabaster_dark)"
+#Uncomment below if you need GO path set e.g. using chai binary installed to particular directory
+# export GOPATH="/home/bebbis/go"
+# export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
