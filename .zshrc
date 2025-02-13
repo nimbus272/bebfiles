@@ -52,3 +52,6 @@ export LS_COLORS="$(vivid generate alabaster_dark)"
 #Uncomment below if you need GO path set e.g. using chai binary installed to particular directory
 # export GOPATH="/home/bebbis/go"
 # export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+
+# Created by `pipx` on 2025-02-09 15:53:14
+export PATH="$PATH:/home/bebbis/.local/bin"
