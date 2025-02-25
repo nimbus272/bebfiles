@@ -1,0 +1,11 @@
+# /* ----------- 💫 https://github.com/JaKooLit 💫 -------- */ #
+
+[pyprland]
+
+plugins = ["scratchpads", "magnify"]
+
+[scratchpads.term]
+animation = "fromTop"
+command = "wezterm start --class kitty_dropterm --always-new-process"
+class = "kitty_dropterm"
+size = "75% 60%"

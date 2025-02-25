@@ -1,0 +1,28 @@
+[manager]
+prepend_keymap = [
+  { on = [
+    "g",
+    "w",
+  ], run = "cd ~/workspace", desc = "Cd to ~/workspace" },
+  { on = "<C-y>", run = [
+    "plugin system-clipboard",
+  ] },
+  { on = [
+    "g,",
+    "t",
+  ], run = "cd ~/.local/share/Trash", desc = "Cd to ~/.local/share/Trash/" },
+  { on = [
+    'l',
+  ], run = "plugin fuse-archive mount", desc = "Enter or Mount selected archive" },
+  { on = [
+    'h',
+  ], run = "plugin fuse-archive unmount", desc = "Leave or Unmount selected archive" },
+  { on = "u", run = "plugin restore", desc = "Restore last deleted files/folders" },
+  { on = "<C-o>", run = "plugin open-with-cmd block", desc = "Open with command in the terminal" },
+  { on = "<C-A-o>", run = "plugin open-with-cmd", desc = "Open with command" },
+  # or use "d + u" like me
+  # { on = [
+  #   "d",
+  #   "u",
+  # ], run = "plugin restore", desc = "Restore last deleted files/folders" },
+]

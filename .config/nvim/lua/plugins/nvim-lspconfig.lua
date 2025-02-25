@@ -44,6 +44,9 @@ return {
           },
         },
       },
+      bashls = {
+        filetypes = { "sh", "zsh", "bash" },
+      },
     },
     setup = {
       gopls = function(_, opts)

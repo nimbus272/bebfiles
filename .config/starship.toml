@@ -1,79 +1,98 @@
 format = """
-[](#9A348E)\
+[](#1F1F28)\
 $os\
 $username\
-[](bg:#DA627D fg:#9A348E)\
+$hostname\
+[](bg:#FFA066 fg:#1F1F28)\
 $directory\
-[](fg:#DA627D bg:#FCA17D)\
+[](fg:#FFA066 bg:#7E9CD8)\
 $git_branch\
 $git_status\
-[](fg:#FCA17D bg:#86BBD8)\
-$container\
-[](fg:#86BBD8 bg:#06969A)\
+[](fg:#7E9CD8 bg:#98BB6C)\
+$c\
+$golang\
+$java\
+$nodejs\
+[](fg:#98BB6C bg:#DCD7BA)\
 $docker_context\
-[](fg:#06969A bg:#33658A)\
-$time\
-[ ](fg:#33658A)\
+[](fg:#DCD7BA bg:#D27E99)\
+[ ](fg:#D27E99)\
+$line_break\
+$character
 """
 
-# Disable the blank line at the start of the prompt
-# add_newline = false
-
-[container]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol \[$name\] ]($style)'
-
-# You can also replace your username with a neat symbol like   or disable this
-# and use the os module below
-[username]
-show_always = true
-style_user = "bg:#9A348E"
-style_root = "bg:#9A348E"
-format = '[$user ]($style)'
+[line_break]
 disabled = false
 
-# An alternative to the username module which displays a symbol that
-# represents the current operating system
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+format = '$symbol '
+disabled = false
+
+[username]
+show_always = true
+style_user = 'bg:#1F1F28'    # Sumi Ink 0
+style_root = 'bg:#1F1F28'
+format = '[ $user ]($style)'
+disabled = false
+
+[hostname]
+ssh_only = true
+ssh_symbol = '🌐'
+trim_at = '.'
+style = 'bg:#16161D'
+format = '[$ssh_symbol $hostname]($style)'
+disabled = false
+
 [os]
-style = "bg:#9A348E"
-disabled = false # Disabled by default
+style = 'bg:#1F1F28'
+disabled = false
+
+[os.symbols]
+Arch = "👺"
 
 [directory]
-style = "bg:#DA627D"
-format = "[ $path ]($style)"
+style = 'bg:#FFA066 fg:#1F1F28'
+format = '[ $path ]($style)'
 truncation_length = 3
-truncation_symbol = "…/"
+truncation_symbol = '.../'
 
-# Here is how you can shorten some long paths by text replacement
-# similar to mapped_locations in Oh My Posh:
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-# Keep in mind that the order matters. For example:
-# "Important Documents" = " 󰈙 "
-# will not be replaced, because "Documents" was already substituted before.
-# So either put "Important Documents" before "Documents" or use the substituted version:
-# "Important 󰈙 " = " 󰈙 "
+[c]
+symbol = ''
+style = 'bg:#98BB6C fg:#1F1F28'
+format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
-symbol = " "
-style = "bg:#06969A"
-format = '[ $symbol $context ]($style)'
+symbol = ''
+style = 'bg:#DCD7BA fg:#1F1F28'
+format = '[ $symbol $context ]($style) $path'
 
 [git_branch]
-symbol = ""
-style = "bg:#FCA17D"
+symbol = ''
+style = 'bg:#7E9CD8 fg:#1F1F28'
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#FCA17D"
+style = 'bg:#7E9CD8 fg:#1F1F28'
 format = '[$all_status$ahead_behind ]($style)'
 
-[time]
-disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:#33658A"
-format = '[ ♥ $time ]($style)'
+[golang]
+symbol = ''
+style = 'bg:#98BB6C fg:#1F1F28'
+format = '[ $symbol ($version) ]($style)'
+
+[java]
+symbol = ''
+style = 'bg:#98BB6C fg:#1F1F28'
+format = '[ $symbol ($version) ]($style)'
+
+[nodejs]
+symbol = ''
+style = 'bg:#98BB6C fg:#1F1F28'
+format = '[ $symbol ($version) ]($style)'
+
+# [python]
+# symbol = '🐍'
+# format = '[${symbol} ${pyenv_prefix} (${version} )(\($virtualenv\) )]($style)'
+# style = 'bg:#98BB6C fg:#1F1F28'
