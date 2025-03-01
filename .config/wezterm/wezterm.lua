@@ -2,70 +2,13 @@ local wezterm = require("wezterm")
 local mux = wezterm.mux
 local act = wezterm.action
 local zsh_path = "/usr/bin/zsh"
+--flashes on x11 or wayland currently
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
 
 local config = {}
 if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
-
--- default workspace config
-wezterm.on("gui-startup", function(cmd)
-	local args = {}
-	local default = ""
-	if cmd then
-		for key, value in pairs(cmd.args) do
-			if value == "yazi" then
-				default = "yazi"
-				---Yazi-----
-				local tab, pane, window = mux.spawn_window({
-					workspace = "yazi",
-					args = args,
-				})
-				pane:send_text("y\n")
-				------------
-				mux.set_active_workspace(default)
-				return
-			elseif value == "neovim" then
-				default = "programming"
-				---Programming-----
-				local tab, terminal_pane, window = mux.spawn_window({
-					workspace = "programming",
-					args = args,
-				})
-				local editor_pane = terminal_pane:split({
-					direction = "Top",
-					size = 0.80,
-				})
-				editor_pane:send_text("nvim\n")
-				-------------------
-				mux.set_active_workspace(default)
-				return
-			end
-		end
-		if default == "" then
-			default = "default"
-			---Default---
-			local tab, pane, window = mux.spawn_window({
-				workspace = "default",
-				args = args,
-			})
-			pane:send_text(tostring(table.concat(cmd.args, " ") .. "\n"))
-			-------------
-			mux.set_active_workspace(default)
-			return
-		end
-	else
-		default = "default"
-		---Default---
-		local tab, pane, window = mux.spawn_window({
-			workspace = "default",
-			args = args,
-		})
-		-------------
-		mux.set_active_workspace(default)
-		return
-	end
-end)
 
 -- settings
 config.window_close_confirmation = "NeverPrompt"
@@ -77,9 +20,7 @@ config.scrollback_lines = 3000
 config.enable_wayland = false
 
 -- styles
--- config.color_scheme = "Kanagawa (Gogh)"
-config.color_scheme_dirs = { "~/.config/wezterm/colors" }
-config.color_scheme = "wallust"
+config.color_scheme = "duckbones"
 config.font = wezterm.font_with_fallback({ "Iosevka Nerd Font Mono" })
 config.font_size = 13.5
 config.window_background_opacity = 0.97
@@ -92,59 +33,6 @@ config.inactive_pane_hsb = {
 
 -- tab-bar
 config.tab_bar_at_bottom = false
-config.status_update_interval = 1000
-wezterm.on("update-status", function(window, pane)
-	local stat = window:active_workspace()
-	local stat_color = "#f7768e"
-
-	if window:active_key_table() then
-		stat = window:active_key_table()
-		stat_color = "#7dcfff"
-	end
-
-	if window:leader_is_active() then
-		stat = "LDR"
-		stat_color = "#bb9af7"
-	end
-
-	local basename = function(s)
-		return string.gsub(s, "(.*[/\\])(.*)", "%2")
-	end
-
-	local cwd = pane:get_current_working_dir()
-	if cwd then
-		if type(cwd) == "userdata" then
-			cwd = basename(cwd.file_path)
-		else
-			cwd = basename(cwd)
-		end
-	else
-		cwd = ""
-	end
-
-	local cmd = pane:get_foreground_process_name()
-	cmd = cmd and basename(cmd) or ""
-
-	local time = wezterm.strftime("%H:%M")
-
-	window:set_left_status(wezterm.format({
-		{ Foreground = { Color = stat_color } },
-		{ Text = " " },
-		{ Text = wezterm.nerdfonts.oct_table .. " " .. stat },
-		{ Text = " |" },
-	}))
-
-	window:set_right_status(wezterm.format({
-		{ Text = wezterm.nerdfonts.md_folder .. " " .. cwd },
-		{ Text = " | " },
-		{ Foreground = { Color = "#e0af68" } },
-		{ Text = wezterm.nerdfonts.fa_code .. " " .. cmd },
-		"ResetAttributes",
-		{ Text = " | " },
-		{ Text = wezterm.nerdfonts.md_clock .. " " .. time },
-		{ Text = " " },
-	}))
-end)
 
 -- keybinds
 config.leader = { key = "Space", mods = "ALT|CTRL", timeout_milliseconds = 1000 }
@@ -168,6 +56,13 @@ config.keys = {
 	},
 }
 
+local copy_mode = wezterm.gui.default_key_tables().copy_mode
+table.insert(copy_mode, {
+	key = "y",
+	mods = "NONE",
+	action = act.Multiple({ { CopyTo = "ClipboardAndPrimarySelection" }, { CopyMode = "ClearSelectionMode" } }),
+})
+
 config.key_tables = {
 	resize_panes = {
 		{ key = "h", action = act.AdjustPaneSize({ "Left", 2 }) },
@@ -175,6 +70,107 @@ config.key_tables = {
 		{ key = "j", action = act.AdjustPaneSize({ "Down", 2 }) },
 		{ key = "l", action = act.AdjustPaneSize({ "Right", 2 }) },
 	},
+	copy_mode = copy_mode,
 }
+
+local tabline_config = {
+	options = {
+		icons_enabled = true,
+		theme = "kanagawabones",
+		tabs_enabled = true,
+		theme_overrides = {},
+		section_separators = {
+			left = wezterm.nerdfonts.pl_left_hard_divider,
+			right = wezterm.nerdfonts.pl_right_hard_divider,
+		},
+		component_separators = {
+			left = wezterm.nerdfonts.pl_left_soft_divider,
+			right = wezterm.nerdfonts.pl_right_soft_divider,
+		},
+		tab_separators = {
+			left = wezterm.nerdfonts.pl_left_hard_divider,
+			right = wezterm.nerdfonts.pl_right_hard_divider,
+		},
+	},
+	sections = {
+		tabline_a = { "mode" },
+		tabline_b = { "workspace" },
+		tabline_c = { " " },
+		tab_active = {
+			"index",
+			{ "parent", padding = 0 },
+			"/",
+			{ "cwd", padding = { left = 0, right = 1 } },
+			{ "zoomed", padding = 0 },
+		},
+		tab_inactive = { "index", { "process", padding = { left = 0, right = 1 } } },
+		tabline_x = { "cpu" },
+		tabline_y = { "datetime" },
+		tabline_z = { "domain" },
+	},
+	extensions = {},
+}
+
+-- default workspace config
+wezterm.on("gui-startup", function(cmd)
+	tabline.setup(tabline_config)
+	tabline.apply_to_config(config)
+	local args = {}
+	if cmd then
+		for key, value in pairs(cmd.args) do
+			if value == "yazi" then
+				---Yazi-----
+				local tab, pane, window = mux.spawn_window({
+					workspace = "yazi",
+					args = args,
+				})
+				pane:send_text("y\n")
+				------------
+				mux.set_active_workspace("yazi")
+				return
+			elseif value == "neovim" then
+				---Programming-----
+				local tab, terminal_pane, window = mux.spawn_window({
+					workspace = "programming",
+					args = args,
+				})
+				local editor_pane = terminal_pane:split({
+					direction = "Top",
+					size = 0.80,
+				})
+				editor_pane:send_text("nvim\n")
+				-------------------
+				mux.set_active_workspace("programming")
+				return
+			elseif value == "btop" then
+				---BTOP-----
+				local tab, pane, window = mux.spawn_window({
+					workspace = "default",
+					args = args,
+				})
+				pane:send_text("btop\n")
+				------------
+				mux.set_active_workspace("default")
+				return
+			end
+		end
+		---Default---
+		local tab, pane, window = mux.spawn_window({
+			workspace = "default",
+			args = args,
+		})
+		pane:send_text(tostring(table.concat(cmd.args, " ") .. "\n"))
+		-------------
+		mux.set_active_workspace("default")
+		return
+	end
+	---Default---
+	local tab, pane, window = mux.spawn_window({
+		workspace = "default",
+		args = args,
+	})
+	-------------
+	mux.set_active_workspace("default")
+end)
 
 return config

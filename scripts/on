@@ -6,6 +6,6 @@ if [ -z "$1" ]; then
 fi
 
 file_name=$(echo "$1" | tr ' ' '-').md
-cd "/home/bebbis/Documents/BebNotes/BebNotes" || exit
+cd "$HOME/Documents/BebNotes/BebNotes" || exit
 touch "inbox/${file_name}"
 nvim "inbox/${file_name}"

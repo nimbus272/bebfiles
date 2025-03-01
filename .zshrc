@@ -3,7 +3,7 @@ fastfetch
 ###################
 
 # oh-my-zsh should stay at top
-ZSH="/home/bebbis/.oh-my-zsh"
+ZSH="$HOME/.oh-my-zsh"
 #Plugins
 plugins=(
   git
@@ -26,31 +26,34 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-vi-mode
+  zsh-system-clipboard
 )
 # shellcheck source=/dev/null
 source $ZSH/oh-my-zsh.sh
+# source $ZSH_CUSTOM/plugins/zsh-system-clipboard.zsh
 
 autoload -Uz compinit
 compinit
 ##############################
 
-#PATH exports
-export PATH=$PATH:/home/bebbis/.spicetify
-export PATH="$PATH:$GEM_HOME/bin"
-export PATH="$PATH:/home/bebbis/scripts"
-export PATH="$PATH:/home/bebbis/.local/bin" # for user-installed apps from package managers like pipx
-export PATH="$PATH:/home/bebbis/.cargo/bin" # same as above but for cargo apps
-
 #ENV vars
+# export ZSH_SYSTEM_CLIPBOARD_METHOD=xcc
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=kj
 export ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
 export ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
-export GEM_HOME="/home/bebbis/.local/share/gem/ruby/3.0.0"
+export GEM_HOME="$HOME/.local/share/gem/ruby/3.0.0"
 export MANGOHUD=1
 export EDITOR="/usr/bin/nvim"
 #Uncomment below if you need GO path set e.g. using chai binary installed to particular directory
-# export GOPATH="/home/bebbis/go"
+# export GOPATH="$HOME/go"
 # export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+
+#PATH exports
+export PATH="$PATH:$HOME/.spicetify"
+export PATH="$PATH:$GEM_HOME/bin"
+export PATH="$PATH:$HOME/scripts"
+export PATH="$PATH:$HOME/.local/bin" # for user-installed apps from package managers like pipx
+export PATH="$PATH:$HOME/.cargo/bin" # same as above but for cargo apps
 
 #Evals
 eval "$(thefuck --alias)"
@@ -61,9 +64,9 @@ eval "$(starship init zsh)"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ls="eza -1la --icons=always --hyperlink --git-repos --no-time --group-directories-first --no-permissions --header"
-alias lappy-ssh="ssh 10.0.0.45 -l bebbis" #TODO figure out how to get this outta here, maybe wezterm or something?
-alias todo="nvim /home/bebbis/Documents/BebNotes/BebNotes/Todo-List.md"
-alias obsidian="nvim /home/bebbis/Documents/BebNotes/BebNotes/"
+alias lappy-ssh="ssh 10.0.0.45" #Use with '-l {username}'
+alias todo="nvim $HOME/Documents/BebNotes/BebNotes/Todo-List.md"
+alias obsidian="nvim $HOME/Documents/BebNotes/BebNotes/"
 alias ollama-start="systemctl start ollama.service"
 alias nvm="fnm"
 alias neovim="wezterm start --always-new-process -- neovim"
