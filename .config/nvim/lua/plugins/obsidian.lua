@@ -1,7 +1,7 @@
 return {
-  "epwalsh/obsidian.nvim",
+  "obsidian-nvim/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
-  lazy = false,
+  lazy = true,
   ft = "markdown",
   -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
   -- event = {
@@ -13,10 +13,6 @@ return {
   dependencies = {
     -- Required.
     "nvim-lua/plenary.nvim",
-    "hrsh7th/nvim-cmp",
-    "nvim-telescope/telescope.nvim",
-    "nvim-treesitter/nvim-treesitter",
-
     -- see below for full list of optional dependencies 👇
   },
 
@@ -36,7 +32,8 @@ return {
       subdir = "obsidian-templates",
     },
     completion = {
-      nvim_cmp = true,
+      nvim_cmp = false,
+      blink = true,
       min_chars = 2,
     },
     note_id_func = function(title)
@@ -50,6 +47,9 @@ return {
         end
       end
       return suffix
+    end,
+    follow_url_func = function(url)
+      vim.fn.jobstart({ "xdg-open", url }) -- linux
     end,
     mappings = {
       -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.

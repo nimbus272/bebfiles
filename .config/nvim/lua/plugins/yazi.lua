@@ -1,6 +1,11 @@
 return {
   "mikavilpas/yazi.nvim",
-  lazy = false,
+  init = function()
+    -- Block netrw plugin load
+    -- vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
+  end,
+  event = "VeryLazy",
   dependencies = { "folke/snacks.nvim" },
   keys = {
     -- 👇 in this section, choose your own keymappings!

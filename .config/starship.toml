@@ -13,6 +13,7 @@ $c\
 $golang\
 $java\
 $nodejs\
+$python\
 [](fg:#98BB6C bg:#DCD7BA)\
 $docker_context\
 [](fg:#DCD7BA bg:#D27E99)\
@@ -92,7 +93,7 @@ symbol = ''
 style = 'bg:#98BB6C fg:#1F1F28'
 format = '[ $symbol ($version) ]($style)'
 
-# [python]
-# symbol = '🐍'
-# format = '[${symbol} ${pyenv_prefix} (${version} )(\($virtualenv\) )]($style)'
-# style = 'bg:#98BB6C fg:#1F1F28'
+[python]
+symbol = '🐍'
+format = '[${symbol} ${pyenv_prefix} (${version} )(\($virtualenv\) )]($style)'
+style = 'bg:#98BB6C fg:#1F1F28'

@@ -43,6 +43,11 @@ use = "Ape/open-with-cmd"
 rev = "433cf30"
 hash = "86e0312b01bc5762813c6c1d0517f073"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-enter"
+rev = "cb6165b"
+hash = "7918aab6a71caf31b58411f789195677"
+
 [[flavor.deps]]
 use = "dangooddd/kanagawa"
 rev = "d98f0c3"

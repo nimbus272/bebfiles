@@ -16,6 +16,7 @@ plugins=(
   firewalld
   docker-compose
   pip
+  uv
   python
   starship
   httpie
@@ -54,6 +55,7 @@ export PATH="$PATH:$GEM_HOME/bin"
 export PATH="$PATH:$HOME/scripts"
 export PATH="$PATH:$HOME/.local/bin" # for user-installed apps from package managers like pipx
 export PATH="$PATH:$HOME/.cargo/bin" # same as above but for cargo apps
+export PATH="$PATH:$HOME/go/bin"     # same as above but for go apps
 
 #Evals
 eval "$(thefuck --alias)"
@@ -70,6 +72,8 @@ alias obsidian="nvim $HOME/Documents/BebNotes/BebNotes/"
 alias ollama-start="systemctl start ollama.service"
 alias nvm="fnm"
 alias neovim="wezterm start --always-new-process -- neovim"
+alias posting="uv tool run posting"
+alias ollama-ui="DATA_DIR=~/.open-webui uvx --python 3.11 open-webui@latest serve"
 
 # VI MODE STUFF###################################
 zstyle ':completion:*' menu select

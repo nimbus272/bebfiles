@@ -54,6 +54,11 @@ config.keys = {
 		mods = "LEADER",
 		action = act.ActivateKeyTable({ name = "resize_panes", timeout_milliseconds = 1000, one_shot = false }),
 	},
+	{
+		key = "p",
+		mods = "CTRL|SHIFT",
+		action = "DisableDefaultAssignment",
+	},
 }
 
 local copy_mode = wezterm.gui.default_key_tables().copy_mode

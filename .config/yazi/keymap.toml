@@ -19,10 +19,10 @@ prepend_keymap = [
   ], run = "plugin fuse-archive unmount", desc = "Leave or Unmount selected archive" },
   { on = "u", run = "plugin restore", desc = "Restore last deleted files/folders" },
   { on = "<C-o>", run = "plugin open-with-cmd block", desc = "Open with command in the terminal" },
+  { on = "<C-n>", run = 'shell -- dragon-drop -x -i -T "$1"' },
   { on = "<C-A-o>", run = "plugin open-with-cmd", desc = "Open with command" },
-  # or use "d + u" like me
-  # { on = [
-  #   "d",
-  #   "u",
-  # ], run = "plugin restore", desc = "Restore last deleted files/folders" },
+  { on = "p", run = "plugin smart-paste", desc = "Paste into the hovered directory or CWD" },
+  { on = "j", run = "plugin arrow 1" },
+  { on = "k", run = "plugin arrow -1" },
+  { on = "l", run = "plugin smart-enter", desc = "Enter the child directory, or open the file" },
 ]

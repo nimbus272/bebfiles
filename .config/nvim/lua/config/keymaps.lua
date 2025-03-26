@@ -16,3 +16,4 @@ vim.keymap.set("n", "<leader>oz", ':Telescope live_grep search_dirs={"/home/bebb
 --Normal Custom Remaps
 vim.keymap.set("n", "gb", "<c-o>")
 vim.keymap.set("i", "kj", "<esc>")
+vim.keymap.set("i", "jk", "<esc>")
