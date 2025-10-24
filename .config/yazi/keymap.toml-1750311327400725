@@ -1,4 +1,4 @@
-[mgr]
+[manager]
 prepend_keymap = [
   { on = [
     "g",
@@ -11,14 +11,12 @@ prepend_keymap = [
     "g,",
     "t",
   ], run = "cd ~/.local/share/Trash", desc = "Cd to ~/.local/share/Trash/" },
-  { on = [
-    'm',
-    'a',
-  ], run = "plugin archivemount mount", desc = "Enter or Mount selected archive" },
-  { on = [
-    'm',
-    'u',
-  ], run = "plugin archivemount unmount", desc = "Leave or Unmount selected archive" },
+  # { on = [
+  #   'l',
+  # ], run = "plugin fuse-archive mount", desc = "Enter or Mount selected archive" },
+  # { on = [
+  #   'h',
+  # ], run = "plugin fuse-archive unmount", desc = "Leave or Unmount selected archive" },
   { on = "u", run = "plugin restore", desc = "Restore last deleted files/folders" },
   { on = "<C-o>", run = "plugin open-with-cmd block", desc = "Open with command in the terminal" },
   { on = "<C-n>", run = 'shell -- dragon-drop -x -i -T "$1"' },

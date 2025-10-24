@@ -51,21 +51,33 @@ return {
     follow_url_func = function(url)
       vim.fn.jobstart({ "xdg-open", url }) -- linux
     end,
-    mappings = {
-      -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-      ["gf"] = {
-        action = function()
-          return require("obsidian").util.gf_passthrough()
-        end,
-        opts = { noremap = false, expr = true, buffer = true },
-      },
-      -- Smart action depending on context, either follow link or toggle checkbox.
-      ["<leader>oc"] = {
-        action = function()
-          return require("obsidian").util.smart_action()
-        end,
-        opts = { buffer = true, expr = true },
-      },
+    callbacks = {
+      enter_note = function(note)
+        -- vim.print(note)
+        -- vim.keymap.del("n", "<CR>", { buffer = ev.buf })
+        vim.keymap.set("n", "<leader>oc", function()
+          return require("obsidian.api").smart_action()
+        end, {
+          buffer = note.bufnr,
+          expr = true,
+        })
+      end,
     },
+    -- mappings = {
+    --   -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+    --   ["gf"] = {
+    --     action = function()
+    --       return require("obsidian").util.gf_passthrough()
+    --     end,
+    --     opts = { noremap = false, expr = true, buffer = true },
+    --   },
+    --   -- Smart action depending on context, either follow link or toggle checkbox.
+    --   ["<leader>oc"] = {
+    --     action = function()
+    --       return require("obsidian").util.smart_action()
+    --     end,
+    --     opts = { buffer = true, expr = true },
+    --   },
+    -- },
   },
 }

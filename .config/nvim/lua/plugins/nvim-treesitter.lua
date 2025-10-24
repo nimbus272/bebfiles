@@ -8,6 +8,8 @@ return {
       "gosum",
       "markdown",
       "markdown_inline",
+      "gdscript",
+      "godot_resource",
     })
   end,
 }

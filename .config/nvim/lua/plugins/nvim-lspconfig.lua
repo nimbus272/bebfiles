@@ -2,6 +2,8 @@ return {
   "neovim/nvim-lspconfig",
   opts = {
     servers = {
+      --GDScript
+      gdscript = {},
       -- Vue 3
       volar = {
         init_options = {
@@ -109,6 +111,18 @@ return {
       },
     },
     setup = {
+      gdscript = function(_, opts)
+        require("lspconfig")["gdscript"].setup({
+          name = "godot",
+
+          cmd = vim.lsp.rpc.connect("127.0.0.1", 6005),
+
+          on_init = function(client, init_result)
+            vim.fn.serverstart("/tmp/godot.pipe")
+          end,
+        })
+        return true
+      end,
       gopls = function(_, opts)
         -- workaround for gopls not supporting semanticTokensProvider
         -- https://github.com/golang/go/issues/54531#issuecomment-1464982242

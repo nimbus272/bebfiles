@@ -1,38 +1,34 @@
 local wezterm = require("wezterm")
-local mux = wezterm.mux
-local act = wezterm.action
 local zsh_path = "/usr/bin/zsh"
---flashes on x11 or wayland currently
+local act = wezterm.action
 local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+local modal = wezterm.plugin.require("https://github.com/MLFlexer/modal.wezterm")
 
 local config = {}
 if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
--- settings
-config.window_close_confirmation = "NeverPrompt"
-config.use_fancy_tab_bar = false
-config.default_prog = { zsh_path, "-l" }
-config.window_decorations = "RESIZE"
-config.scrollback_lines = 3000
--- temporarily use for hyprland session
-config.enable_wayland = false
-
--- styles
-config.color_scheme = "duckbones"
-config.font = wezterm.font_with_fallback({ "Iosevka Nerd Font Mono" })
-config.font_size = 13.5
-config.window_background_opacity = 0.97
-config.initial_cols = 190
-config.initial_rows = 40
-config.inactive_pane_hsb = {
-	saturation = 0.2,
-	brightness = 0.5,
+config.ssh_domains = {
+	{
+		name = "media-server",
+		remote_address = "10.0.0.179",
+		username = "bebbis",
+		multiplexing = "None",
+	},
+	{
+		name = "monitors",
+		remote_address = "10.0.0.48",
+		username = "bebbis",
+		multiplexing = "None",
+	},
+	{
+		name = "other-dockers",
+		remote_address = "10.0.0.69",
+		username = "bebbis",
+		multiplexing = "None",
+	},
 }
-
--- tab-bar
-config.tab_bar_at_bottom = false
 
 -- keybinds
 config.leader = { key = "Space", mods = "ALT|CTRL", timeout_milliseconds = 1000 }
@@ -40,15 +36,13 @@ config.keys = {
 	{ key = "t", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
 	{ key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "-", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "LeftArrow", mods = "LEADER", action = act.ActivateTabRelative(-1) },
-	{ key = "RightArrow", mods = "LEADER", action = act.ActivateTabRelative(1) },
-	{ key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
-	{ key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
-	{ key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
-	{ key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
-	{ key = "p", mods = "LEADER", action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES|TABS" }) },
-	{ key = "x", mods = "LEADER", action = act.QuitApplication },
-	{ key = "q", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "l", mods = "LEADER", action = act.ActivateTabRelative(-1) },
+	{ key = "h", mods = "LEADER", action = act.ActivateTabRelative(1) },
+	{ key = "h", mods = "CTRL", action = act.ActivatePaneDirection("Left") },
+	{ key = "l", mods = "CTRL", action = act.ActivatePaneDirection("Right") },
+	{ key = "k", mods = "CTRL", action = act.ActivatePaneDirection("Up") },
+	{ key = "j", mods = "CTRL", action = act.ActivatePaneDirection("Down") },
+	{ key = "p", mods = "LEADER", action = act.ActivateCommandPalette },
 	{
 		key = "r",
 		mods = "LEADER",
@@ -81,7 +75,7 @@ config.key_tables = {
 local tabline_config = {
 	options = {
 		icons_enabled = true,
-		theme = "kanagawabones",
+		theme = "duckbones",
 		tabs_enabled = true,
 		theme_overrides = {},
 		section_separators = {
@@ -113,69 +107,86 @@ local tabline_config = {
 		tabline_y = { "datetime" },
 		tabline_z = { "domain" },
 	},
-	extensions = {},
 }
 
--- default workspace config
-wezterm.on("gui-startup", function(cmd)
-	tabline.setup(tabline_config)
-	tabline.apply_to_config(config)
-	local args = {}
-	if cmd then
-		for key, value in pairs(cmd.args) do
-			if value == "yazi" then
-				---Yazi-----
-				local tab, pane, window = mux.spawn_window({
-					workspace = "yazi",
-					args = args,
-				})
-				pane:send_text("y\n")
-				------------
-				mux.set_active_workspace("yazi")
-				return
-			elseif value == "neovim" then
-				---Programming-----
-				local tab, terminal_pane, window = mux.spawn_window({
-					workspace = "programming",
-					args = args,
-				})
-				local editor_pane = terminal_pane:split({
-					direction = "Top",
-					size = 0.80,
-				})
-				editor_pane:send_text("nvim\n")
-				-------------------
-				mux.set_active_workspace("programming")
-				return
-			elseif value == "btop" then
-				---BTOP-----
-				local tab, pane, window = mux.spawn_window({
-					workspace = "default",
-					args = args,
-				})
-				pane:send_text("btop\n")
-				------------
-				mux.set_active_workspace("default")
-				return
-			end
-		end
-		---Default---
-		local tab, pane, window = mux.spawn_window({
-			workspace = "default",
-			args = args,
-		})
-		pane:send_text(tostring(table.concat(cmd.args, " ") .. "\n"))
-		-------------
-		mux.set_active_workspace("default")
-		return
-	end
-	---Default---
-	local tab, pane, window = mux.spawn_window({
-		workspace = "default",
-		args = args,
-	})
-	-------------
-	mux.set_active_workspace("default")
-end)
+-- settings
+config.window_close_confirmation = "NeverPrompt"
+config.use_fancy_tab_bar = false
+config.default_prog = { zsh_path, "-l" }
+config.window_decorations = "RESIZE"
+config.scrollback_lines = 3000
+-- temporarily use for hyprland session
+config.enable_wayland = true
+
+-- styles
+-- config.color_scheme = "duckbones"
+config.font = wezterm.font_with_fallback({ "Iosevka Nerd Font Mono" })
+config.font_size = 13.5
+config.window_background_opacity = 0.97
+config.initial_cols = 190
+config.initial_rows = 40
+config.inactive_pane_hsb = {
+	saturation = 0.2,
+	brightness = 0.5,
+}
+
+tabline.setup(tabline_config)
+tabline.apply_to_config(config)
+modal.enable_defaults("https://github.com/MLFlexer/modal.wezterm")
+
+config.colors = {
+	-- COLORS: duckbones
+	-- The default text color
+	foreground = "#ebefc0",
+	-- The default background color
+	background = "#0e101a",
+
+	-- Overrides the cell background color when the current cell is occupied by the
+	-- cursor and the cursor style is set to Block
+	cursor_bg = "#edf2c2",
+	-- Overrides the text color when the current cell is occupied by the cursor
+	cursor_fg = "#0e101a",
+	-- Specifies the border color of the cursor when the cursor style is set to Block,
+	-- or the color of the vertical or horizontal bar when the cursor style is set to
+	-- Bar or Underline.
+	cursor_border = "#edf2c2",
+
+	-- the foreground color of selected text
+	selection_fg = "#ebefc0",
+	-- the background color of selected text
+	selection_bg = "#37382d",
+	ansi = {
+		"#0e101a",
+		"#e03600",
+		"#5dcd97",
+		"#e39500",
+		"#00a3cb",
+		"#795ccc",
+		"#00a3cb",
+		"#ebefc0",
+	},
+	brights = {
+		"#2b2f46",
+		"#ff4821",
+		"#58db9e",
+		"#f6a100",
+		"#00b4e0",
+		"#b3a1e6",
+		"#00b4e0",
+		"#b3b692",
+	},
+}
+modal.apply_to_config(config)
+
+local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
+-- you can put the rest of your Wezterm config here
+smart_splits.apply_to_config(config, {
+	direction_keys = { "h", "j", "k", "l" },
+	modifiers = {
+		move = "CTRL", -- modifier to use for pane movement, e.g. CTRL+h to move left
+		resize = "ALT", -- modifier to use for pane resize, e.g. META+h to resize to the left
+	},
+	log_level = "info",
+})
 
 return config

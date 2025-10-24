@@ -7,3 +7,5 @@
 	name = Dennis
 [credential]
 	helper = store
+[pull]
+	rebase = true

@@ -1,11 +1,11 @@
-[mgr]
+[manager]
 show_hidden = true
 show_symlink = true
 
 [plugin]
 prepend_previewers = [
-  { name = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
-  { name = "*/", run = 'piper -- eza -TL=1 --color=always --icons=always --group-directories-first --no-quotes "$1"' },
+  { name = "*.md", run = "glow" },
+  { name = "*/", run = "eza-preview" },
 ]
 
 [open]
